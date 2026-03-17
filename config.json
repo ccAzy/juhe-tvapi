@@ -226,11 +226,6 @@
             "api": "https://cj.rycjapi.com/api.php/provide/vod",
             "detail": "https://cj.rycjapi.com"
         },
-        "api_27": {
-            "name": "TV-步步高资源",
-            "api": "https://api.yparse.com/api/json",
-            "detail": "https://api.yparse.com"
-        },
         "api_29": {
             "name": "TV-电影天堂资源",
             "api": "http://caiji.dyttzyapi.com/api.php/provide/vod",

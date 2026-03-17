@@ -146,11 +146,6 @@
             "api": "https://pz.168188.dpdns.org/?url=https://apilj.com/api.php/provide/vod",
             "detail": "https://pz.168188.dpdns.org"
         },
-        "doudouzy.com": {
-            "name": "🔞豆豆资源",
-            "api": "https://api.douapi.cc/api.php/provide/vod",
-            "detail": "https://api.douapi.cc"
-        },
         "didizy.com": {
             "name": "🔞滴滴资源",
             "api": "https://api.ddapi.cc/api.php/provide/vod",

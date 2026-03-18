@@ -216,15 +216,15 @@
             "name": "魔都动漫",
             "detail": "https://caiji.moduapi.cc"
         },
-        "mdzy": {
-            "api": "https://www.mdzyapi.com/api.php/provide/vod",
-            "name": "魔都资源",
-            "detail": "https://www.mdzyapi.com"
-        },
         "api_15": {
             "name": "TV-如意资源",
             "api": "https://cj.rycjapi.com/api.php/provide/vod",
             "detail": "https://cj.rycjapi.com"
+        },
+        "api_27": {
+            "name": "TV-步步高资源",
+            "api": "https://api.yparse.com/api/json",
+            "detail": "https://api.yparse.com"
         },
         "api_29": {
             "name": "TV-电影天堂资源",

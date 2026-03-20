@@ -206,15 +206,15 @@
             "name": "閃電资源",
             "detail": "https://sdzyapi.com"
         },
-        "tvpiaoling": {
-            "api": "https://p2100.net/api.php/provide/vod",
-            "name": "飘零资源",
-            "detail": "https://p2100.net"
-        },
         "tvmodu": {
             "api": "https://caiji.moduapi.cc/api.php/provide/vod",
             "name": "魔都动漫",
             "detail": "https://caiji.moduapi.cc"
+        },
+        "mdzy": {
+            "api": "https://www.mdzyapi.com/api.php/provide/vod",
+            "name": "魔都资源",
+            "detail": "https://www.mdzyapi.com"
         },
         "api_15": {
             "name": "TV-如意资源",

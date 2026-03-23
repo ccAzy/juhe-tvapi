@@ -221,11 +221,6 @@
             "name": "魔都资源",
             "detail": "https://www.mdzyapi.com"
         },
-        "api_15": {
-            "name": "TV-如意资源",
-            "api": "https://cj.rycjapi.com/api.php/provide/vod",
-            "detail": "https://cj.rycjapi.com"
-        },
         "api_27": {
             "name": "TV-步步高资源",
             "api": "https://api.yparse.com/api/json",
@@ -261,6 +256,11 @@
             "api": "https://caiji.dbzy5.com/api.php/provide/vod",
             "detail": "https://caiji.dbzy5.com"
         },
+        "www.maoyanzy.com": {
+            "name": "🎬猫眼资源",
+            "api": "https://api.maoyanapi.top/api.php/provide/vod",
+            "detail": "https://api.maoyanapi.top"
+        },
         "cj.lzcaiji.com": {
             "name": "🎬量子资源",
             "api": "https://cj.lzcaiji.com/api.php/provide/vod",
@@ -270,11 +270,6 @@
             "name": "🎬360 资源",
             "api": "https://360zyzz.com/api.php/provide/vod",
             "detail": "https://360zyzz.com"
-        },
-        "www.ryzyw.com": {
-            "name": "🎬如意资源",
-            "api": "https://pz.168188.dpdns.org/?url=https://cj.rycjapi.com/api.php/provide/vod",
-            "detail": "https://pz.168188.dpdns.org"
         },
         "www.haohuazy.com": {
             "name": "🎬豪华资源",

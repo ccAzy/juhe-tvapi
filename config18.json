@@ -141,6 +141,11 @@
             "api": "https://beiyong.slapibf.com/api.php/provide/vod",
             "detail": "https://beiyong.slapibf.com"
         },
+        "apilj.com": {
+            "name": "🔞辣椒资源",
+            "api": "https://pz.168188.dpdns.org/?url=https://apilj.com/api.php/provide/vod",
+            "detail": "https://pz.168188.dpdns.org"
+        },
         "didizy.com": {
             "name": "🔞滴滴资源",
             "api": "https://api.ddapi.cc/api.php/provide/vod",

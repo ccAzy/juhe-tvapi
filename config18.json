@@ -1,30 +1,20 @@
 {
     "cache_time": 7200,
     "api_site": {
-        "xingbaziyuan": {
-            "api": "https://xingba111.com/api.php/provide/vod",
+        "xbzy": {
             "name": "杏吧资源",
+            "api": "https://xingba111.com/api.php/provide/vod",
             "detail": "https://xingba111.com"
         },
-        "senlinziyuan": {
-            "api": "https://slapibf.com/api.php/provide/vod",
+        "slzy": {
             "name": "森林资源",
+            "api": "https://slapibf.com/api.php/provide/vod",
             "detail": "https://slapibf.com"
-        },
-        "huangseziy": {
-            "api": "https://hsckzy888.com/api.php/provide/vod",
-            "name": "黄色资源啊啊",
-            "detail": "https://hsckzy888.com"
         },
         "api_2": {
             "name": "AV-155资源",
             "api": "https://155api.com/api.php/provide/vod",
             "detail": "https://155api.com"
-        },
-        "api_30": {
-            "name": "AV-百万资源",
-            "api": "https://api.bwzyz.com/api.php/provide/vod",
-            "detail": "https://api.bwzyz.com"
         },
         "api_52": {
             "name": "AV-91麻豆",
@@ -40,6 +30,11 @@
             "name": "AV-JKUN资源",
             "api": "https://jkunzyapi.com/api.php/provide/vod",
             "detail": "https://jkunzyapi.com"
+        },
+        "api_55": {
+            "name": "AV-souav资源",
+            "api": "https://api.souavzy.vip/api.php/provide/vod",
+            "detail": "https://api.souavzy.vip"
         },
         "api_56": {
             "name": "AV-乐播资源",
@@ -111,6 +106,11 @@
             "api": "https://www.pgxdy.com/api/json.php",
             "detail": "https://www.pgxdy.com"
         },
+        "huangseziy": {
+            "api": "https://hsckzy888.com/api.php/provide/vod",
+            "name": "黄色资源啊啊",
+            "detail": "https://hsckzy888.com"
+        },
         "xiaojiziy": {
             "api": "https://api.xiaojizy.live/provide/vod",
             "name": "小鸡资源",
@@ -120,11 +120,6 @@
             "api": "https://www.xxibaozyw.com/api.php/provide/vod",
             "name": "细胞采集黄色",
             "detail": "https://www.xxibaozyw.com"
-        },
-        "www.yyzywcj.com": {
-            "name": "🔞优优资源",
-            "api": "https://www.yyzywcj.com/api.php/provide/vod",
-            "detail": "https://www.yyzywcj.com"
         },
         "hsckzy.xyz": {
             "name": "🔞黄色仓库",
@@ -141,10 +136,11 @@
             "api": "https://beiyong.slapibf.com/api.php/provide/vod",
             "detail": "https://beiyong.slapibf.com"
         },
-        "apilj.com": {
-            "name": "🔞辣椒资源",
-            "api": "https://pz.168188.dpdns.org/?url=https://apilj.com/api.php/provide/vod",
-            "detail": "https://pz.168188.dpdns.org"
+        "doudouzy.com": {
+            "_comment": " 不稳定 ",
+            "name": "🔞豆豆资源",
+            "api": "https://api.douapi.cc/api.php/provide/vod",
+            "detail": "https://api.douapi.cc"
         },
         "didizy.com": {
             "name": "🔞滴滴资源",
@@ -179,16 +175,10 @@
             "detail": "https://xingba222.com"
         },
         "semaozy1.com": {
-            "_comment": "JSON 里所有中文字符为 Unicode 编码",
+            "_comment": "无法搜索",
             "name": "🔞色猫资源",
             "api": "https://caiji.semaozy.net/inc/apijson_vod.php/provide/vod",
             "detail": "https://caiji.semaozy.net"
-        },
-        "siwazyw.tv": {
-            "_comment": "污染搜索结果",
-            "name": "🔞丝袜资源",
-            "api": "https://siwazyw.tv/api.php/provide/vod",
-            "detail": "https://siwazyw.tv"
         },
         "tianyazy": {
             "name": "天涯海角",

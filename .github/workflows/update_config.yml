@@ -16,17 +16,17 @@ jobs:
     steps:
       # 步骤1: 检出你的代码
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # 步骤2: 设置 Python 环境
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v7
         with:
           python-version: '3.10'
 
       # 步骤3: (修改) 缓存 pip 依赖项以加快执行速度
       - name: Cache pip dependencies
-        uses: actions/cache@v4 # 使用最新的稳定版本
+        uses: actions/cache@v5
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
@@ -53,7 +53,7 @@ jobs:
 
       # 步骤7: (修改) 提交并推送生成的 config.json 和 config18.json 文件
       - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "Automated: Update, test, and separate config files"
           # 修改 file_pattern 以包含两个文件

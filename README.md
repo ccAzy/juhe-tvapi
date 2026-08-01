@@ -103,12 +103,16 @@ python separate_sources.py
 {
   "cache_time": 7200,
   "api_site": { "feifan": { "name": "非凡资源", "api": "http://...", "detail": "http://..." } },
-  "sites": [ { "key": "feifan", "name": "非凡资源", "api": "http://..." } ]
+  "sites": [ { "key": "feifan", "name": "非凡资源", "api": "http://...", "type": 1 } ]
 }
 ```
 
 - `api_site`：appleCMS 标准格式（含 `detail` 字段），兼容 appleCMS 系播放器
-- `sites`：TVBox 标准格式（`{key, name, api}` 数组），兼容影视仓 / OK影视 / TVBoxOSC / FongMi 等 TVBox 系软件
+- `sites`：TVBox 标准格式（`{key, name, api, type}` 数组），兼容影视仓 / OK影视 / TVBoxOSC / FongMi 等 TVBox 系软件
+
+> ⚠️ **`type` 字段为必填**：影视仓 / TVBoxOSC 解析 `sites` 时硬性要求每个站点带 `type`（`0`=xml、`1`=json、`3`=jar、`4`=remote），缺失会抛异常导致整份配置"解析失败"（本项目为 appleCMS 采集接口，统一使用 `type: 1`）。
+
+> 两个顶层键内容完全一致（同一批源），任何一类播放器导入均无需转换，直接可用。
 
 > 两个顶层键内容完全一致（同一批源），任何一类播放器导入均无需转换，直接可用。
 

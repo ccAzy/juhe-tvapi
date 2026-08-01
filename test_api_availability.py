@@ -71,7 +71,13 @@ def rebuild_sites(config: dict) -> dict:
         sites.append({
             "key": key,
             "name": value.get("name", key),
-            "api": value.get("api", "")
+            "api": value.get("api", ""),
+            # 影视仓/TVBoxOSC 硬性必填: type 缺失会抛异常导致整个配置解析失败
+            # 0=xml 1=json 3=jar 4=remote; appleCMS 采集接口为 json
+            "type": 1,
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
         })
     config['sites'] = sites
     return config

@@ -80,8 +80,18 @@ def filter_adult_sources():
     normal_config['api_site'] = normal_sources
 
     # 同步重建 TVBox 兼容的 sites 数组 (影视仓/OK影视/TVBoxOSC/FongMi 解析顶层 sites)
+    # 注意: 影视仓/TVBoxOSC 硬性要求每个 site 含 type 字段, 缺失会抛异常导致解析失败
+    # 0=xml 1=json 3=jar 4=remote; appleCMS 采集接口为 json
     normal_config['sites'] = [
-        {"key": key, "name": details.get("name", key), "api": details.get("api", "")}
+        {
+            "key": key,
+            "name": details.get("name", key),
+            "api": details.get("api", ""),
+            "type": 1,
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
+        }
         for key, details in normal_sources.items()
         if isinstance(details, dict)
     ]

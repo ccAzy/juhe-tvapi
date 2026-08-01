@@ -4,7 +4,7 @@
 
 ## 功能特性
 
-- 🌐 **多上游聚合**：从多个远程源抓取配置（智能识别 Base58 编码 / 明文 JSON / TVBox `sites` 格式，列表自动转字典）
+- 🌐 **多上游聚合**：从多个远程源抓取配置（智能识别 Base58 编码 / 明文 JSON / TVBox `sites` 格式 / 多仓 `urls` 递归展开，列表自动转字典）
 - 🔍 **白名单过滤**：仅保留 `cache_time` 与 `api_site` 两个顶层键
 - ✂️ **深度去重**：标准化 URL（忽略空格、末尾斜杠及 http/https 差异）去除重复源
 - ⚡ **并发测速**：20 线程并发检测 API 连通性与响应格式，自动移除失效源
@@ -63,7 +63,7 @@ python separate_sources.py
 
 - **方式二**：直接编辑 `update_config.py` 中的 `DEFAULT_URLS_TO_FETCH` 列表。
 
-默认上游源（5 个）：
+默认上游源（9 个）：
 
 | 上游 | 格式 | 说明 |
 |------|------|------|
@@ -72,14 +72,23 @@ python separate_sources.py
 | hafrey1/LunaTV-config | Base58 | 聚合配置 |
 | rapier15sapper/ew | 明文 JSON 列表 | 列表自动转字典 |
 | anaer/Meow | TVBox `sites` 字段 | 约 77 个站点，自动转换为 `api_site` |
+| 小盒子4K (xhztv.top) | TVBox `sites` 字段 | 影视仓配置 |
+| 小盒子多仓 (xhztv.top/dc) | 多仓 `urls` 字段 | 18 个子配置，递归展开 |
+| 挺好分享多仓 (ztha.top) | 多仓 `urls` 字段 | 32 个子配置，递归展开 |
+| 拾光多仓 (xmbjm.fh4u.org) | 多仓 `urls` 字段 | 多个子配置，递归展开 |
+
+> 多仓展开的每个子配置源名会带上子配置名前缀（如 `肥猫·xxx`），便于区分来源；多仓嵌套递归深度上限为 3 层（`MAX_MULTI_STORE_DEPTH`），防止无限递归。
 
 ### 支持的配置格式
 
-`update_config.py` 会自动识别以下三种上游格式并统一转换为 `api_site` 字典：
+`update_config.py` 会自动识别以下四种上游格式并统一转换为 `api_site` 字典：
 
 1. **appleCMS 标准**：顶层含 `api_site` 字典（`{key: {name, api}}`）
 2. **纯列表**：顶层为 JSON 数组（`[{name, api, ...}]`），自动提取 `api`/`baseUrl`/`url` 字段
 3. **TVBox `sites` 字段**：顶层含 `sites` 列表（`[{key, name, api}]`），自动跳过 JS 规则 / jar 包等非 http 采集接口源
+4. **多仓 `urls` 字段**：顶层含 `urls` 列表（`[{name, url}]`），自动递归抓取每个子配置并合并
+
+> 自动清洗 JSON 头部常见的 BOM（`\ufeff`）与 `//`/`#` 注释行；解析失败时自动提取第一个完整 JSON 对象（容忍尾部杂散内容）。
 
 ### 调整过滤关键词
 

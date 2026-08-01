@@ -4,6 +4,7 @@ import requests
 import base58
 import json
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import urlparse  # --- 引入 URL 解析库 ---
 
 # --- 配置区 ---
@@ -12,8 +13,15 @@ DEFAULT_URLS_TO_FETCH = [
     "https://raw.githubusercontent.com/666zmy/MoonTV/refs/heads/main/config.json", 
     "https://raw.githubusercontent.com/hafrey1/LunaTV-config/main/LunaTV-config.txt",
     "https://raw.githubusercontent.com/rapier15sapper/ew/refs/heads/main/test.json",
-    "https://raw.githubusercontent.com/anaer/Meow/main/meow.json"  # TVBox 格式 (sites 字段), 约77个源
+    "https://raw.githubusercontent.com/anaer/Meow/main/meow.json",  # TVBox 格式 (sites 字段), 约77个源
+    "http://xhztv.top/4k.json",                                    # 小盒子4K (TVBox sites 格式)
+    "http://xhztv.top/dc",                                         # 小盒子多仓 (urls 多仓格式, 18个子配置)
+    "http://ztha.top/TVBox/GYCK.json",                             # 挺好分享多仓 (urls 多仓格式, 32个子配置)
+    "http://xmbjm.fh4u.org/dc.txt"                                 # 拾光多仓 (urls 多仓格式)
 ]
+
+# 多仓 (urls) 递归展开的最大深度, 防止多仓嵌套多仓导致无限递归
+MAX_MULTI_STORE_DEPTH = 3
 
 def load_source_urls():
     """
@@ -34,8 +42,10 @@ URLS_TO_FETCH = load_source_urls()
 ALLOWED_TOP_LEVEL_KEYS = {"cache_time", "api_site"}
 
 OUTPUT_FILENAME = "config.json"
-MAX_RETRIES = 3
-RETRY_DELAY = 5
+MAX_RETRIES = 2
+RETRY_DELAY = 2
+REQUEST_TIMEOUT = 8          # 单次请求超时(秒), 缩短以加快整体抓取
+SUBFETCH_WORKERS = 8         # 多仓子配置并发抓取的线程数
 
 def convert_sites_to_api_site(sites):
     """
@@ -58,21 +68,56 @@ def convert_sites_to_api_site(sites):
         }
     return converted
 
-def fetch_and_decode_url(url):
+def clean_content(raw_text):
+    """
+    清洗 TVBox 配置常见的头部垃圾：
+    1. 去掉 UTF-8 BOM (\ufeff)
+    2. 去掉以 // # * 开头的注释行（小盒子/老刘备等配置会在 JSON 前加说明注释）
+    """
+    text = raw_text.lstrip('\ufeff')
+    lines = []
+    for line in text.splitlines():
+        stripped = line.strip()
+        if stripped.startswith("//") or stripped.startswith("#") or stripped.startswith("*"):
+            continue
+        lines.append(line)
+    return "\n".join(lines)
+
+def parse_json_loose(text):
+    """
+    宽松 JSON 解析：
+    1. 先尝试整体 json.loads
+    2. 失败则用 raw_decode 提取第一个完整的 JSON 对象（忽略尾部杂散内容）
+    """
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        decoder = json.JSONDecoder()
+        start = text.find("{")
+        if start == -1:
+            raise
+        data, _ = decoder.raw_decode(text[start:])
+        return data
+
+def fetch_and_decode_url(url, depth=0):
     """
     从URL获取内容，智能判断是Base58还是明文JSON，然后解码/解析，并根据白名单进行过滤。
+    depth: 当前递归深度, 用于多仓 (urls) 展开时限制嵌套层数
     """
     for attempt in range(MAX_RETRIES):
         try:
             print(f"正在尝试第 {attempt + 1}/{MAX_RETRIES} 次请求链接: {url}")
-            response = requests.get(url, timeout=15)
+            response = requests.get(url, timeout=REQUEST_TIMEOUT, headers={"User-Agent": "Mozilla/5.0"})
             response.raise_for_status()
             response.encoding = 'utf-8'
-            content = response.text.strip()
-            
-            if not content:
+            raw_content = response.text.strip()
+
+            if not raw_content:
                 print(f"警告: 从 {url} 获取的内容为空。")
                 return None
+
+            # 先清洗 BOM/注释, 再尝试 Base58 (Base58 内容为单行编码, 清洗不影响)
+            content = clean_content(raw_content)
 
             data = None
             try:
@@ -84,12 +129,12 @@ def fetch_and_decode_url(url):
             except Exception:
                 print("...Base58 解码失败，尝试直接作为明文 JSON 解析...")
                 try:
-                    data = json.loads(content)
+                    data = parse_json_loose(content)
                     print("...成功将内容作为明文 JSON 解析。")
-                except json.JSONDecodeError as json_e:
+                except (json.JSONDecodeError, ValueError) as json_e:
                     print(f"错误: 内容既不是有效的Base58，也不是有效的JSON。错误信息: {json_e}")
                     return None
-            
+
             print(f"成功解析链接内容: {url}")
 
             if isinstance(data, list):
@@ -98,16 +143,16 @@ def fetch_and_decode_url(url):
                 for index, item in enumerate(data):
                     if isinstance(item, dict):
                         api_link = item.get("baseUrl") or item.get("api") or item.get("url")
-                        
+
                         if api_link:
                             site_key = item.get("id") or item.get("key") or item.get("name") or f"site_list_{index}"
-                            
+
                             converted_sites[site_key] = {
                                 "name": item.get("name", site_key),
                                 "api": api_link
                                 # 在这里移除了强制写入空 detail 的逻辑，统交由后面的 main 模块处理
                             }
-                
+
                 if converted_sites:
                     data = {
                         "api_site": converted_sites
@@ -120,7 +165,7 @@ def fetch_and_decode_url(url):
             if isinstance(data, dict):
                 filtered_data = {key: data[key] for key in ALLOWED_TOP_LEVEL_KEYS if key in data}
 
-                # --- 新增: 支持 TVBox 格式的 sites 字段 ---
+                # --- 支持 TVBox 格式的 sites 字段 ---
                 # 例: Meow 仓库的 meow.json, 顶层无 api_site, 而是 sites 列表
                 sites_list = data.get("sites")
                 if isinstance(sites_list, list) and sites_list:
@@ -134,8 +179,59 @@ def fetch_and_decode_url(url):
                         filtered_data["api_site"] = merged
                         print(f"...成功从 TVBox sites 字段转换了 {len(converted_sites)} 个有效源。")
 
+                # --- 支持多仓格式 (urls 字段) 的递归展开 ---
+                # 例: 小盒子多仓 http://xhztv.top/dc -> {"urls": [{"name": "...", "url": "..."}, ...]}
+                # 每个子配置本身又是一个 TVBox 配置, 递归抓取后合并到 api_site
+                urls_list = data.get("urls")
+                if isinstance(urls_list, list) and urls_list:
+                    if depth >= MAX_MULTI_STORE_DEPTH:
+                        print(f"...已达到多仓最大递归深度 ({MAX_MULTI_STORE_DEPTH})，跳过 {url} 的子配置展开。")
+                    else:
+                        print(f"...检测到多仓 (urls) 格式，共 {len(urls_list)} 个子配置，开始递归展开 (深度 {depth + 1})...")
+                        sub_api_sites = {}
+                        # 收集可抓取的子配置
+                        sub_targets = []
+                        for sub in urls_list:
+                            if not isinstance(sub, dict):
+                                continue
+                            sub_url = sub.get("url")
+                            if not isinstance(sub_url, str) or not sub_url.startswith("http"):
+                                continue
+                            sub_targets.append((sub.get("name", ""), sub_url))
+                        # 并发抓取所有子配置, 大幅缩短耗时
+                        with ThreadPoolExecutor(max_workers=SUBFETCH_WORKERS) as executor:
+                            future_map = {executor.submit(fetch_and_decode_url, sub_url, depth + 1): (sub_name, sub_url)
+                                          for sub_name, sub_url in sub_targets}
+                            for future in as_completed(future_map):
+                                sub_name, sub_url = future_map[future]
+                                try:
+                                    sub_data = future.result()
+                                except Exception as e:
+                                    print(f"错误: 子配置 {sub_url} 抓取异常: {e}")
+                                    continue
+                                if not sub_data or not isinstance(sub_data.get("api_site"), dict):
+                                    print(f"跳过无效子配置: {sub_name or sub_url}")
+                                    continue
+                                for sub_key, sub_value in sub_data["api_site"].items():
+                                    if not isinstance(sub_value, dict):
+                                        continue
+                                    # 以子配置名作为前缀, 避免不同子配置间的键冲突
+                                    prefixed_key = f"{sub_name}_{sub_key}" if sub_name else sub_key
+                                    sub_value = dict(sub_value)
+                                    if sub_name:
+                                        sub_value["name"] = f"{sub_name}·{sub_value.get('name', sub_key)}"
+                                    sub_api_sites[prefixed_key] = sub_value
+                        if sub_api_sites:
+                            existing = filtered_data.get("api_site", {})
+                            if not isinstance(existing, dict):
+                                existing = {}
+                            merged = dict(existing)
+                            merged.update(sub_api_sites)
+                            filtered_data["api_site"] = merged
+                            print(f"...多仓展开完成，共从 {len(sub_targets)} 个子配置中合并 {len(sub_api_sites)} 个有效源。")
+
                 if not filtered_data:
-                    print("警告: 解析后的内容中未找到白名单指定的键 (cache_time/api_site) 或可转换的 sites 字段。")
+                    print("警告: 解析后的内容中未找到白名单指定的键 (cache_time/api_site) 或可转换的 sites/urls 字段。")
                     return None
                 print(f"内容已按白名单过滤，保留键: {list(filtered_data.keys())}")
                 return filtered_data
@@ -147,10 +243,10 @@ def fetch_and_decode_url(url):
             print(f"错误：请求链接失败: {req_e}")
         except Exception as e:
             print(f"错误: 处理来自 {url} 的内容时发生未知错误: {e}")
-        
+
         if attempt < MAX_RETRIES - 1:
             time.sleep(RETRY_DELAY)
-            
+
     print(f"错误: 在 {MAX_RETRIES} 次尝试后，仍然无法处理链接: {url}")
     return None
 
@@ -159,7 +255,19 @@ def main():
     主执行函数
     """
     print("--- 开始更新配置文件 ---")
-    clean_data_buffer = [content for url in URLS_TO_FETCH if (content := fetch_and_decode_url(url))]
+    # 并发抓取所有顶层上游源
+    clean_data_buffer = []
+    with ThreadPoolExecutor(max_workers=len(URLS_TO_FETCH)) as executor:
+        future_map = {executor.submit(fetch_and_decode_url, url): url for url in URLS_TO_FETCH}
+        for future in as_completed(future_map):
+            url = future_map[future]
+            try:
+                content = future.result()
+            except Exception as e:
+                print(f"错误: 抓取 {url} 异常: {e}")
+                continue
+            if content:
+                clean_data_buffer.append(content)
     if not clean_data_buffer:
         print("错误: 所有链接内容均为空或无法按规则过滤，无法生成配置文件。")
         return

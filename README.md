@@ -5,7 +5,7 @@
 ## 功能特性
 
 - 🌐 **多上游聚合**：从多个远程源抓取配置（智能识别 Base58 编码 / 明文 JSON / TVBox `sites` 格式 / 多仓 `urls` 递归展开，列表自动转字典）
-- 🔍 **白名单过滤**：仅保留 `cache_time` 与 `api_site` 两个顶层键
+- 🔍 **双格式输出**：同时输出 `api_site`（appleCMS 标准）与 `sites`（TVBox 标准）两个顶层键，兼容影视仓 / TVBox / OK影视 / FongMi 及 appleCMS 系播放器
 - ✂️ **深度去重**：标准化 URL（忽略空格、末尾斜杠及 http/https 差异）去除重复源
 - ⚡ **并发测速**：20 线程并发检测 API 连通性与响应格式，自动移除失效源
 - 🚫 **成人源过滤**：按关键词识别并直接删除成人源，仅保留正常源
@@ -47,7 +47,12 @@ python test_api_availability.py --yes
 python separate_sources.py
 ```
 
-> 生成的 `config.json` 可直接配置到支持 TV API 的播放器中使用。
+> 生成的 `config.json` 为双格式（`api_site` + `sites`），可直接配置到影视仓 / TVBox / OK影视 / FongMi / appleCMS 系等任意支持 TV API 的播放器中。
+>
+> 本仓库线上地址（GitHub Actions 每日自动更新）：
+> ```
+> https://raw.githubusercontent.com/ccAzy/juhe-tvapi/main/config.json
+> ```
 
 ## 配置说明
 
@@ -81,7 +86,7 @@ python separate_sources.py
 
 ### 支持的配置格式
 
-`update_config.py` 会自动识别以下四种上游格式并统一转换为 `api_site` 字典：
+`update_config.py` 会自动识别以下四种上游格式并统一合并处理：
 
 1. **appleCMS 标准**：顶层含 `api_site` 字典（`{key: {name, api}}`）
 2. **纯列表**：顶层为 JSON 数组（`[{name, api, ...}]`），自动提取 `api`/`baseUrl`/`url` 字段
@@ -89,6 +94,23 @@ python separate_sources.py
 4. **多仓 `urls` 字段**：顶层含 `urls` 列表（`[{name, url}]`），自动递归抓取每个子配置并合并
 
 > 自动清洗 JSON 头部常见的 BOM（`\ufeff`）与 `//`/`#` 注释行；解析失败时自动提取第一个完整 JSON 对象（容忍尾部杂散内容）。
+
+### 输出格式
+
+最终生成的 `config.json` 采用**双格式兼容**结构：
+
+```json
+{
+  "cache_time": 7200,
+  "api_site": { "feifan": { "name": "非凡资源", "api": "http://...", "detail": "http://..." } },
+  "sites": [ { "key": "feifan", "name": "非凡资源", "api": "http://..." } ]
+}
+```
+
+- `api_site`：appleCMS 标准格式（含 `detail` 字段），兼容 appleCMS 系播放器
+- `sites`：TVBox 标准格式（`{key, name, api}` 数组），兼容影视仓 / OK影视 / TVBoxOSC / FongMi 等 TVBox 系软件
+
+> 两个顶层键内容完全一致（同一批源），任何一类播放器导入均无需转换，直接可用。
 
 ### 调整过滤关键词
 

@@ -1,0 +1,63 @@
+name: Update, Test, and Filter Configs
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # 每天执行一次 (UTC时间)
+    - cron: '0 0 * * *'
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  build-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 步骤1: 检出你的代码
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      # 步骤2: 设置 Python 环境
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.10'
+
+      # 步骤3: (修改) 缓存 pip 依赖项以加快执行速度
+      - name: Cache pip dependencies
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      # 步骤3: 安装依赖项
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      # 步骤4: 运行 update_config.py 生成原始 config.json
+      - name: Step 1 - Run update_config.py to generate config.json
+        run: python update_config.py
+
+      # 步骤5: 运行 test_api_availability.py 测试并清理 config.json
+      - name: Step 2 - Run test_api_availability.py to test the config
+        run: python test_api_availability.py --yes
+
+      # 步骤6: (修改) 运行 separate_sources.py 过滤并删除成人源
+      - name: Step 3 - Run separate_sources.py to filter adult sources
+        run: python separate_sources.py
+
+      # 步骤7: (修改) 提交并推送生成的 config.json 文件
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "Automated: Update, test, and filter config file"
+          # 修改 file_pattern 以仅包含 config.json
+          file_pattern: "config.json"
+          commit_user_name: "GitHub Actions"
+          commit_user_email: "actions@github.com"
+          commit_author: "GitHub Actions <actions@github.com>"

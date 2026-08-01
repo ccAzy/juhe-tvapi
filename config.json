@@ -96,11 +96,6 @@
             "api": "https://m3u8.apiyhzy.com/api.php/provide/vod",
             "detail": "https://m3u8.apiyhzy.com"
         },
-        "bdzy": {
-            "name": "百度资源",
-            "api": "https://api.apibdzy.com/api.php/provide/vod",
-            "detail": "https://api.apibdzy.com"
-        },
         "nnzy": {
             "name": "牛牛点播",
             "api": "https://api.niuniuzy.me/api.php/provide/vod",
@@ -281,11 +276,6 @@
             "api": "http://ffzy5.tv/api.php/provide/vod",
             "detail": "http://ffzy5.tv"
         },
-        "aidan_2": {
-            "name": "爱蛋资源",
-            "api": "https://lovedan.net/api.php/provide/vod",
-            "detail": "https://lovedan.net"
-        },
         "moduzy": {
             "name": "魔都影视",
             "api": "https://www.moduzy.com/api.php/provide/vod",
@@ -300,11 +290,6 @@
             "name": "CK",
             "api": "https://www.ckzy1.com/api.php/provide/vod",
             "detail": "https://www.ckzy1.com"
-        },
-        "b4d4414ba19c27a00bf907d34b47bc3d": {
-            "name": "1-艾旦",
-            "api": "https://www.lovedan.net/api.php/provide/vod/",
-            "detail": "https://www.lovedan.net"
         },
         "730acd683fc317fa1a584e5613e727f0": {
             "name": "2-非凡",

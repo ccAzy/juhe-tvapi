@@ -79,6 +79,13 @@ def filter_adult_sources():
     # 将过滤后的源放回配置模板
     normal_config['api_site'] = normal_sources
 
+    # 同步重建 TVBox 兼容的 sites 数组 (影视仓/OK影视/TVBoxOSC/FongMi 解析顶层 sites)
+    normal_config['sites'] = [
+        {"key": key, "name": details.get("name", key), "api": details.get("api", "")}
+        for key, details in normal_sources.items()
+        if isinstance(details, dict)
+    ]
+
     # 打印被删除的成人源列表（便于在 CI 日志中查看）
     if removed_adult_sources:
         print(f"🗑️ 已识别并删除 {len(removed_adult_sources)} 个成人源:")

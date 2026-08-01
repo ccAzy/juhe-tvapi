@@ -310,10 +310,30 @@ def main():
                 merged_api_sites[new_key] = value
 
     first_valid_cache_time = next((item.get("cache_time") for item in clean_data_buffer if "cache_time" in item), 7200)
+
+    # ==========================================
+    # --- 双格式输出: api_site (appleCMS) + sites (TVBox) ---
+    # TVBox 系软件 (影视仓/OK影视/TVBoxOSC/FongMi) 解析的是顶层 sites 数组:
+    #   [{"key": "...", "name": "...", "api": "..."}]
+    # appleCMS 系软件解析的是 api_site 字典。两者同时输出以兼容全部播放器。
+    # ==========================================
+    tvbox_sites = []
+    for key, value in merged_api_sites.items():
+        if not isinstance(value, dict):
+            continue
+        site_entry = {
+            "key": key,
+            "name": value.get("name", key),
+            "api": value.get("api", "")
+        }
+        tvbox_sites.append(site_entry)
+
     final_config = {
         "cache_time": first_valid_cache_time,
-        "api_site": merged_api_sites
+        "api_site": merged_api_sites,
+        "sites": tvbox_sites
     }
+    print(f"已生成双格式配置: api_site {len(merged_api_sites)} 个源, sites {len(tvbox_sites)} 个源")
     try:
         with open(OUTPUT_FILENAME, 'w', encoding='utf-8') as f:
             json.dump(final_config, f, indent=4, ensure_ascii=False)

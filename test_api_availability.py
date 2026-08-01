@@ -57,6 +57,25 @@ def validate_api_response(data: dict) -> bool:
     
     return True
 
+def rebuild_sites(config: dict) -> dict:
+    """
+    根据 api_site 字典重建 TVBox 兼容的 sites 数组。
+    TVBox 系软件 (影视仓/OK影视/TVBoxOSC/FongMi) 解析的是顶层 sites 数组:
+      [{"key": "...", "name": "...", "api": "..."}]
+    """
+    api_sites = config.get('api_site', {})
+    sites = []
+    for key, value in api_sites.items():
+        if not isinstance(value, dict):
+            continue
+        sites.append({
+            "key": key,
+            "name": value.get("name", key),
+            "api": value.get("api", "")
+        })
+    config['sites'] = sites
+    return config
+
 def remove_duplicate_apis(config: dict) -> Tuple[dict, List[Tuple[str, str]]]:
     """
     优化版去重核心：标准化对比URL，忽略空格、末尾斜杠及HTTP/HTTPS差异
@@ -191,6 +210,7 @@ def main():
                 json.dump(config, f, ensure_ascii=False, indent=2)
             print(f"原配置已备份至: {backup_path}")
             
+            deduplicated_config = rebuild_sites(deduplicated_config)  # 同步重建 TVBox sites 数组
             with open(config_path, 'w', encoding='utf-8') as f:
                 json.dump(deduplicated_config, f, ensure_ascii=False, indent=4) # 优化排版为缩进4格
             print(f"已将去重后的配置保存到 {config_path}")
@@ -242,6 +262,7 @@ def main():
         if choice.lower() in ['y', 'yes']:
             unavailable_api_names = [r[0] for r in unavailable_apis]
             updated_config = remove_unavailable_apis(config, unavailable_api_names)
+            updated_config = rebuild_sites(updated_config)  # 同步重建 TVBox sites 数组
             
             backup_path = f"{config_path}.backup.{int(time.time())}"
             with open(backup_path, 'w', encoding='utf-8') as f:

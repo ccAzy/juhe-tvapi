@@ -1,5 +1,5 @@
 {
-    "cache_time": 7200,
+    "cache_time": 9200,
     "api_site": {
         "feifan": {
             "name": "非凡资源",
@@ -221,30 +221,35 @@
             "api": "https://apilsbzy1.com/api.php/provide/vod",
             "detail": "https://apilsbzy1.com"
         },
+        "api_1": {
+            "name": "TV-1080资源",
+            "api": "https://api.1080zyku.com/inc/api_mac10.php",
+            "detail": "https://api.1080zyku.com"
+        },
+        "api_4": {
+            "name": "TV-CK资源",
+            "api": "https://ckzy.me/api.php/provide/vod",
+            "detail": "https://ckzy.me"
+        },
+        "api_43": {
+            "name": "TV-金鹰资源",
+            "api": "https://jyzyapi.com/api.php/provide/vod",
+            "detail": "https://jyzyapi.com"
+        },
+        "iqiyi": {
+            "api": "https://www.iqiyizyapi.com/api.php/provide/vod",
+            "name": "iqiyi资源",
+            "detail": "https://www.iqiyizyapi.com"
+        },
         "kczy": {
             "name": "快车资源",
             "api": "https://caiji.kuaichezy.org/api.php/provide/vod",
             "detail": "https://caiji.kuaichezy.org"
         },
-        "zy1080": {
-            "name": "1080资源",
-            "api": "https://api.1080zyku.com/inc/api_mac10.php",
-            "detail": "https://api.1080zyku.com"
-        },
-        "ckzy": {
-            "name": "CK资源",
-            "api": "https://ckzy.me/api.php/provide/vod",
-            "detail": "https://ckzy.me"
-        },
         "maoyan": {
             "name": "猫眼资源",
             "api": "https://api.maoyanapi.top/api.php/provide/vod",
             "detail": "https://api.maoyanapi.top"
-        },
-        "jyzy": {
-            "name": "金鹰资源",
-            "api": "https://jyzyapi.com/api.php/provide/vod",
-            "detail": "https://jyzyapi.com"
         },
         "lzi2": {
             "name": "量子资源",
@@ -256,7 +261,7 @@
             "api": "https://360zyzz.com/api.php/provide/vod",
             "detail": "https://360zyzz.com"
         },
-        "iqiyi": {
+        "iqiyi_2": {
             "name": "爱奇艺",
             "api": "https://iqiyizyapi.com/api.php/provide/vod",
             "detail": "https://iqiyizyapi.com"
@@ -431,11 +436,6 @@
             "api": "https://360zy.tv/api.php/provide/vod/",
             "detail": "https://360zy.tv"
         },
-        "iqiyi_2": {
-            "api": "https://www.iqiyizyapi.com/api.php/provide/vod",
-            "name": "iqiyi资源",
-            "detail": "https://www.iqiyizyapi.com"
-        },
         "🐹dxawi_IK": {
             "name": "🐹dxawi·IK",
             "api": "https://ikunzyapi.com/api.php/provide/vod/from/ikm3u8/",
@@ -461,8 +461,8 @@
             "api": "https://bfzyapi.com/api.php/provide/vod/?ac=list",
             "detail": "https://bfzyapi.com"
         },
-        "🚀讴歌线路_魔都资源": {
-            "name": "🚀讴歌线路·🤣魔都┃动漫",
+        "欧歌📚在线_魔都资源": {
+            "name": "欧歌📚在线·🤣魔都┃动漫",
             "api": "https://caiji.moduapi.cc/api.php/provide/vod/?ac=list",
             "detail": "https://caiji.moduapi.cc"
         },
@@ -925,6 +925,42 @@
             "filterable": 1
         },
         {
+            "key": "api_1",
+            "name": "TV-1080资源",
+            "api": "https://api.1080zyku.com/inc/api_mac10.php",
+            "type": 1,
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
+        },
+        {
+            "key": "api_4",
+            "name": "TV-CK资源",
+            "api": "https://ckzy.me/api.php/provide/vod",
+            "type": 1,
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
+        },
+        {
+            "key": "api_43",
+            "name": "TV-金鹰资源",
+            "api": "https://jyzyapi.com/api.php/provide/vod",
+            "type": 1,
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
+        },
+        {
+            "key": "iqiyi",
+            "name": "iqiyi资源",
+            "api": "https://www.iqiyizyapi.com/api.php/provide/vod",
+            "type": 1,
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
+        },
+        {
             "key": "kczy",
             "name": "快车资源",
             "api": "https://caiji.kuaichezy.org/api.php/provide/vod",
@@ -934,36 +970,9 @@
             "filterable": 1
         },
         {
-            "key": "zy1080",
-            "name": "1080资源",
-            "api": "https://api.1080zyku.com/inc/api_mac10.php",
-            "type": 1,
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1
-        },
-        {
-            "key": "ckzy",
-            "name": "CK资源",
-            "api": "https://ckzy.me/api.php/provide/vod",
-            "type": 1,
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1
-        },
-        {
             "key": "maoyan",
             "name": "猫眼资源",
             "api": "https://api.maoyanapi.top/api.php/provide/vod",
-            "type": 1,
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1
-        },
-        {
-            "key": "jyzy",
-            "name": "金鹰资源",
-            "api": "https://jyzyapi.com/api.php/provide/vod",
             "type": 1,
             "searchable": 1,
             "quickSearch": 1,
@@ -988,7 +997,7 @@
             "filterable": 1
         },
         {
-            "key": "iqiyi",
+            "key": "iqiyi_2",
             "name": "爱奇艺",
             "api": "https://iqiyizyapi.com/api.php/provide/vod",
             "type": 1,
@@ -1303,15 +1312,6 @@
             "filterable": 1
         },
         {
-            "key": "iqiyi_2",
-            "name": "iqiyi资源",
-            "api": "https://www.iqiyizyapi.com/api.php/provide/vod",
-            "type": 1,
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1
-        },
-        {
             "key": "🐹dxawi_IK",
             "name": "🐹dxawi·IK",
             "api": "https://ikunzyapi.com/api.php/provide/vod/from/ikm3u8/",
@@ -1357,8 +1357,8 @@
             "filterable": 1
         },
         {
-            "key": "🚀讴歌线路_魔都资源",
-            "name": "🚀讴歌线路·🤣魔都┃动漫",
+            "key": "欧歌📚在线_魔都资源",
+            "name": "欧歌📚在线·🤣魔都┃动漫",
             "api": "https://caiji.moduapi.cc/api.php/provide/vod/?ac=list",
             "type": 1,
             "searchable": 1,

@@ -441,26 +441,6 @@
             "api": "https://ikunzyapi.com/api.php/provide/vod/from/ikm3u8/",
             "detail": "https://ikunzyapi.com"
         },
-        "🍯HG_csp_xml_索尼资源": {
-            "name": "🍯HG·🐝索尼资源",
-            "api": "https://suoniapi.com/api.php/provide/vod/from/snm3u8/",
-            "detail": "https://suoniapi.com"
-        },
-        "🍯HG_csp_xml_量子资源": {
-            "name": "🍯HG·🐝量子资源",
-            "api": "http://cj.lziapi.com/api.php/provide/vod/?ac=list",
-            "detail": "http://cj.lziapi.com"
-        },
-        "🍯HG_csp_xml_非凡资源": {
-            "name": "🍯HG·🐝非凡资源",
-            "api": "http://cj.ffzyapi.com/api.php/provide/vod/?ac=list",
-            "detail": "http://cj.ffzyapi.com"
-        },
-        "🍯HG_csp_xml_暴风资源": {
-            "name": "🍯HG·🐝暴风资源",
-            "api": "https://bfzyapi.com/api.php/provide/vod/?ac=list",
-            "detail": "https://bfzyapi.com"
-        },
         "🚀小马_电影天堂": {
             "name": "🚀小马·️天堂┃采集",
             "api": "http://caiji.dyttzyapi.com/api.php/provide/vod/from/dyttm3u8/at/m3u8/",
@@ -480,6 +460,26 @@
             "name": "🚀小马·影视 | 率率[直连]",
             "api": "https://suoniapi.com/api.php/provide/vod/?ac=list",
             "detail": "https://suoniapi.com"
+        },
+        "🚀小马_暴風": {
+            "name": "🚀小马·影视 | 暴風[直连]",
+            "api": "https://bfzyapi.com/api.php/provide/vod/?ac=list",
+            "detail": "https://bfzyapi.com"
+        },
+        "🍯HG_csp_xml_索尼资源": {
+            "name": "🍯HG·🐝索尼资源",
+            "api": "https://suoniapi.com/api.php/provide/vod/from/snm3u8/",
+            "detail": "https://suoniapi.com"
+        },
+        "🍯HG_csp_xml_量子资源": {
+            "name": "🍯HG·🐝量子资源",
+            "api": "http://cj.lziapi.com/api.php/provide/vod/?ac=list",
+            "detail": "http://cj.lziapi.com"
+        },
+        "🍯HG_csp_xml_非凡资源": {
+            "name": "🍯HG·🐝非凡资源",
+            "api": "http://cj.ffzyapi.com/api.php/provide/vod/?ac=list",
+            "detail": "http://cj.ffzyapi.com"
         },
         "Clun📚在线_茅台": {
             "name": "Clun📚在线·茅台 | 采集",
@@ -1321,42 +1321,6 @@
             "filterable": 1
         },
         {
-            "key": "🍯HG_csp_xml_索尼资源",
-            "name": "🍯HG·🐝索尼资源",
-            "api": "https://suoniapi.com/api.php/provide/vod/from/snm3u8/",
-            "type": 1,
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1
-        },
-        {
-            "key": "🍯HG_csp_xml_量子资源",
-            "name": "🍯HG·🐝量子资源",
-            "api": "http://cj.lziapi.com/api.php/provide/vod/?ac=list",
-            "type": 1,
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1
-        },
-        {
-            "key": "🍯HG_csp_xml_非凡资源",
-            "name": "🍯HG·🐝非凡资源",
-            "api": "http://cj.ffzyapi.com/api.php/provide/vod/?ac=list",
-            "type": 1,
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1
-        },
-        {
-            "key": "🍯HG_csp_xml_暴风资源",
-            "name": "🍯HG·🐝暴风资源",
-            "api": "https://bfzyapi.com/api.php/provide/vod/?ac=list",
-            "type": 1,
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1
-        },
-        {
             "key": "🚀小马_电影天堂",
             "name": "🚀小马·️天堂┃采集",
             "api": "http://caiji.dyttzyapi.com/api.php/provide/vod/from/dyttm3u8/at/m3u8/",
@@ -1387,6 +1351,42 @@
             "key": "🚀小马_率率",
             "name": "🚀小马·影视 | 率率[直连]",
             "api": "https://suoniapi.com/api.php/provide/vod/?ac=list",
+            "type": 1,
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
+        },
+        {
+            "key": "🚀小马_暴風",
+            "name": "🚀小马·影视 | 暴風[直连]",
+            "api": "https://bfzyapi.com/api.php/provide/vod/?ac=list",
+            "type": 1,
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
+        },
+        {
+            "key": "🍯HG_csp_xml_索尼资源",
+            "name": "🍯HG·🐝索尼资源",
+            "api": "https://suoniapi.com/api.php/provide/vod/from/snm3u8/",
+            "type": 1,
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
+        },
+        {
+            "key": "🍯HG_csp_xml_量子资源",
+            "name": "🍯HG·🐝量子资源",
+            "api": "http://cj.lziapi.com/api.php/provide/vod/?ac=list",
+            "type": 1,
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
+        },
+        {
+            "key": "🍯HG_csp_xml_非凡资源",
+            "name": "🍯HG·🐝非凡资源",
+            "api": "http://cj.ffzyapi.com/api.php/provide/vod/?ac=list",
             "type": 1,
             "searchable": 1,
             "quickSearch": 1,

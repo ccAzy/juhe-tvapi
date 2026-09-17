@@ -196,6 +196,11 @@
             "api": "https://sdzyapi.com/api.php/provide/vod",
             "detail": "https://sdzyapi.com"
         },
+        "piaoling": {
+            "name": "飘零资源",
+            "api": "https://p2100.net/api.php/provide/vod",
+            "detail": "https://p2100.net"
+        },
         "modudongman": {
             "name": "魔都动漫",
             "api": "https://caiji.moduapi.cc/api.php/provide/vod",
@@ -400,6 +405,11 @@
             "name": "43-HG",
             "api": "https://hong.hgyx.vip/api.php/provide/vod/",
             "detail": "https://hong.hgyx.vip"
+        },
+        "130ff3134aa51648a8a5575b98b5d268": {
+            "name": "49-无忧",
+            "api": "https://www.wyvod.com/api.php/provide/vod/",
+            "detail": "https://www.wyvod.com"
         },
         "9d8b0f25e739dc88f3a9aa3ccd54b1a5": {
             "name": "50-淘片",
@@ -880,6 +890,15 @@
             "filterable": 1
         },
         {
+            "key": "piaoling",
+            "name": "飘零资源",
+            "api": "https://p2100.net/api.php/provide/vod",
+            "type": 1,
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
+        },
+        {
             "key": "modudongman",
             "name": "魔都动漫",
             "api": "https://caiji.moduapi.cc/api.php/provide/vod",
@@ -1243,6 +1262,15 @@
             "key": "fbfa5eed414e1f6137f2496a68005ef5",
             "name": "43-HG",
             "api": "https://hong.hgyx.vip/api.php/provide/vod/",
+            "type": 1,
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
+        },
+        {
+            "key": "130ff3134aa51648a8a5575b98b5d268",
+            "name": "49-无忧",
+            "api": "https://www.wyvod.com/api.php/provide/vod/",
             "type": 1,
             "searchable": 1,
             "quickSearch": 1,
